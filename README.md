@@ -47,7 +47,10 @@ Timer Snackbar package let you to add a beautiful live timer at snackbar to your
 1. Add the latest version of package to your pubspec.yaml (and run`dart pub get`):
 ```yaml
 dependencies:
-  timer_snackbar: ^0.0.3
+  timer_snackbar2:
+    git:
+      url: https://github.com/aa2013/timer_snackbar2.git
+      ref: master 
 ```
 2. Import the package and use it in your Flutter App.
 ```dart
@@ -58,7 +61,6 @@ import 'package:timer_snackbar/timer_snackbar.dart';
 
 ![Preview](https://raw.githubusercontent.com/aa2013/timer_snackbar2/master/sample.gif)
 
-<br>
 <br>
 
 ## Example
