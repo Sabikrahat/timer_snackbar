@@ -3,7 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 timerSnackbar({
-  required BuildContext context,
+  BuildContext? context,
+
+  ///If you need to display it separately in a specific Scaffold, pass the corresponding ScaffoldMessengerState, and set the context to null.
+  ScaffoldMessengerState? scaffoldMessengerState,
 
   /// Main body message
   required String contentText,
@@ -25,7 +28,11 @@ timerSnackbar({
 
   /// default TextStyle is none.
   TextStyle? contentTextStyle,
+
+  /// default margin is 6.0
+  EdgeInsetsGeometry? margin = const EdgeInsets.all(6.0),
 }) {
+  assert(context != null || scaffoldMessengerState != null);
   bool isExecute = true;
   final snackbar = SnackBar(
     content: Row(
@@ -69,7 +76,11 @@ timerSnackbar({
         InkWell(
           splashColor: Colors.white,
           onTap: () {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            if (context != null) {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            } else {
+              scaffoldMessengerState!.hideCurrentSnackBar();
+            }
             isExecute = !isExecute;
             return;
           },
@@ -96,16 +107,21 @@ timerSnackbar({
     ),
     backgroundColor: backgroundColor ?? Colors.grey[850],
     duration: Duration(seconds: second),
-    behavior: SnackBarBehavior.floating,
-    margin: const EdgeInsets.all(6.0),
+    behavior: margin != null ? SnackBarBehavior.floating : null,
+    margin: margin,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(4.0),
     ),
   );
-
-  ScaffoldMessenger.of(context)
-    ..hideCurrentSnackBar()
-    ..showSnackBar(snackbar);
+  if (context != null) {
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(snackbar);
+  } else {
+    scaffoldMessengerState!
+      ..hideCurrentSnackBar()
+      ..showSnackBar(snackbar);
+  }
 
   Timer(Duration(seconds: second), () {
     if (isExecute) afterTimeExecute();
