@@ -17,6 +17,9 @@ timerSnackbar({
   /// button label
   String buttonLabel = 'Undo',
 
+  /// When the button is clicked, this method will be called
+  void Function()? onActionTap,
+
   /// This method will execute after time finish. The default time is 4 seconds.
   required void Function() afterTimeExecute,
 
@@ -81,6 +84,7 @@ timerSnackbar({
             } else {
               scaffoldMessengerState!.hideCurrentSnackBar();
             }
+            onActionTap?.call();
             isExecute = !isExecute;
             return;
           },
